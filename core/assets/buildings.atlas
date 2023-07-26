@@ -1,0 +1,41 @@
+
+buildings.png
+size: 512, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+dummy-building-1x1
+  rotate: false
+  xy: 392, 196
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+dummy-building-2x2
+  rotate: false
+  xy: 2, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+dummy-building-3x3
+  rotate: false
+  xy: 294, 132
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+dummy-building-4x4
+  rotate: false
+  xy: 164, 100
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+dummy-building-5x5
+  rotate: false
+  xy: 2, 68
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1

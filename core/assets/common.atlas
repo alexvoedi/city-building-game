@@ -1,0 +1,20 @@
+
+common.png
+size: 128, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+cell
+  rotate: false
+  xy: 2, 2
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+cursor
+  rotate: false
+  xy: 36, 2
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1

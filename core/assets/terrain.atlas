@@ -1,0 +1,41 @@
+
+terrain.png
+size: 256, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+grass-1
+  rotate: false
+  xy: 138, 2
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+grass-2
+  rotate: false
+  xy: 36, 2
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+sand-1
+  rotate: false
+  xy: 104, 2
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+water-1
+  rotate: false
+  xy: 2, 2
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+water-2
+  rotate: false
+  xy: 70, 2
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1

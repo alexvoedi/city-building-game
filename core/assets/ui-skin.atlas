@@ -1,0 +1,56 @@
+
+ui-skin.png
+size: 512, 512
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+Minimal5x7
+  rotate: false
+  xy: 1, 425
+  size: 505, 79
+  orig: 505, 79
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 1, 293
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: -1
+window
+  rotate: false
+  xy: 1, 293
+  size: 128, 64
+  split: 25, 25, 25, 25
+  orig: 128, 64
+  offset: 0, 0
+  index: -1
+button-circle
+  rotate: false
+  xy: 1, 227
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+button-circle-zone
+  rotate: false
+  xy: 131, 293
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+button-road
+  rotate: false
+  xy: 1, 359
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: -1
+button-zone
+  rotate: false
+  xy: 131, 359
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: -1

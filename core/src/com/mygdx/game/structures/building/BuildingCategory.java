@@ -1,0 +1,17 @@
+package com.mygdx.game.structures.building;
+
+public enum BuildingCategory {
+  POWER_SUPPLY,
+  WATER_SUPPLY,
+  GARBAGE_DISPOSAL,
+  POLICE,
+  EDUCATION,
+  RECREATIONAL_ACTIVITY,
+  LANDMARK,
+  REWARD,
+  RESIDENTIAL,
+  COMMERCIAL,
+  INDUSTRIAL,
+  HARBOUR,
+  AIRPORT
+}

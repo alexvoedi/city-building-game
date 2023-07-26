@@ -1,0 +1,34 @@
+
+ui.png
+size: 512, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+button
+  rotate: false
+  xy: 132, 2
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: -1
+button-circle
+  rotate: false
+  xy: 392, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+button-road
+  rotate: false
+  xy: 2, 2
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: -1
+button-zone
+  rotate: false
+  xy: 262, 2
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: -1

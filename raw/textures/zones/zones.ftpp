@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "version": "0.6.7"
+  },
+  "savePath": "G:\\Dokumente\\Repositories\\my-game\\public\\assets\\textures",
+  "images": [],
+  "folders": [
+    "G:/Dokumente/Repositories/my-game/raw/textures/zones"
+  ],
+  "packOptions": {
+    "textureName": "zone",
+    "textureFormat": "png",
+    "removeFileExtension": true,
+    "prependFolderName": false,
+    "base64Export": false,
+    "tinify": false,
+    "tinifyKey": "",
+    "scale": 1,
+    "filter": "none",
+    "exporter": "Phaser 3",
+    "fileName": "pack-result",
+    "savePath": "G:\\Dokumente\\Repositories\\my-game\\public\\assets\\textures",
+    "width": 2048,
+    "height": 2048,
+    "fixedSize": false,
+    "powerOfTwo": true,
+    "padding": 0,
+    "extrude": 0,
+    "allowRotation": false,
+    "allowTrim": false,
+    "trimMode": "trim",
+    "alphaThreshold": "0",
+    "detectIdentical": false,
+    "packer": "MaxRectsBin",
+    "packerMethod": "BestShortSideFit"
+  }
+}

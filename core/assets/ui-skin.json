@@ -1,0 +1,52 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	Minimal5x7: {
+		file: Minimal5x7.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	high-residential-zone: {
+		hex: 004400ff
+	}
+	low-residential-zone: {
+		hex: 00bb00ff
+	}
+	medium-residential-zone: {
+		hex: 008800ff
+	}
+	white: {
+		hex: ffffffff
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+	default: {
+		up: button
+	}
+	circle: {
+		up: button-circle
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: Minimal5x7
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: Minimal5x7
+		up: button
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: window
+		titleFont: Minimal5x7
+		titleFontColor: medium-residential-zone
+	}
+}
+}
