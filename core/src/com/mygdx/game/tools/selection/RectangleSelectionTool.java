@@ -24,6 +24,12 @@ public class RectangleSelectionTool extends SelectionTool {
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
     if (button == Input.Buttons.LEFT) {
       updateStart(screenX, screenY);
+
+      // Support click-to-zone by initializing the end point immediately.
+      updateEnd(screenX, screenY);
+      updateCells();
+
+      return true;
     }
 
     return false;
@@ -33,9 +39,15 @@ public class RectangleSelectionTool extends SelectionTool {
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     if (button == Input.Buttons.LEFT) {
       updateEnd(screenX, screenY);
-      build();
+      updateCells();
+
+      if (!cells.isEmpty()) {
+        build();
+      }
 
       cells = new ArrayList<>();
+
+      return true;
     }
 
     return false;
@@ -47,7 +59,7 @@ public class RectangleSelectionTool extends SelectionTool {
 
     updateCells();
 
-    return false;
+    return true;
   }
 
   private void updateStart(int screenX, int screenY) {
@@ -71,7 +83,8 @@ public class RectangleSelectionTool extends SelectionTool {
   }
 
   private void updateCells() {
-    if (startCell == null || endCell == null) return;
+    if (startCell == null || endCell == null)
+      return;
 
     GridPoint2 startCellGridPosition = startCell.getGridPosition();
     GridPoint2 endCellGridPosition = endCell.getGridPosition();

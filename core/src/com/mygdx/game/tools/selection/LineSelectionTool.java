@@ -21,7 +21,7 @@ public class LineSelectionTool extends SelectionTool {
   public LineSelectionTool(AssetManager assetManager, Map map, int directions) {
     super(assetManager, map);
 
-    this.directions = 8;
+    this.directions = directions;
   }
 
   @Override
@@ -73,12 +73,11 @@ public class LineSelectionTool extends SelectionTool {
   }
 
   private void updateCells() {
-    if (
-      startPosition == null ||
-      endPosition == null ||
-      startCell == null ||
-      endCell == null
-    ) return;
+    if (startPosition == null ||
+        endPosition == null ||
+        startCell == null ||
+        endCell == null)
+      return;
 
     GridPoint2 startCellGridPosition = startCell.getGridPosition();
     GridPoint2 endCellGridPosition = endCell.getGridPosition();
@@ -115,12 +114,10 @@ public class LineSelectionTool extends SelectionTool {
         p.y += sy;
         iy++;
       } else {
-        if (
-          startPosition.x < endPosition.x &&
-          startPosition.y > endPosition.y ||
-          startPosition.x > endPosition.x &&
-          startPosition.y < endPosition.y
-        ) {
+        if (startPosition.x < endPosition.x &&
+            startPosition.y > endPosition.y ||
+            startPosition.x > endPosition.x &&
+                startPosition.y < endPosition.y) {
           p.x += sx;
           ix++;
         } else {

@@ -22,6 +22,7 @@ public class Cell {
 
   Sprite powerIndicatorSprite;
   boolean hasPower;
+  boolean hasWater;
 
   public Cell(AssetManager assetManager, int x, int y, float height) {
     this.gridPosition = new GridPoint2(x, y);
@@ -37,6 +38,7 @@ public class Cell {
     this.powerIndicatorSprite = commonAtlas.createSprite("cell");
     this.powerIndicatorSprite.setPosition(this.position.x, this.position.y);
     this.hasPower = false;
+    this.hasWater = false;
   }
 
   public void update(float delta) {
@@ -102,5 +104,11 @@ public class Cell {
     this.hasPower = hasPower;
   }
 
+  public boolean isHasWater() {
+    return hasWater;
+  }
 
+  public void setHasWater(boolean hasWater) {
+    this.hasWater = hasWater;
+  }
 }

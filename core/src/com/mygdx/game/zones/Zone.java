@@ -26,4 +26,8 @@ public abstract class Zone {
   public void render(SpriteBatch spriteBatch) {
     sprite.draw(spriteBatch);
   }
+
+  public Cell getCell() {
+    return cell;
+  }
 }

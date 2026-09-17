@@ -2,6 +2,7 @@ package com.mygdx.game.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,22 +10,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.City;
 import com.mygdx.game.Map;
 import com.mygdx.game.ZoneColors;
+import com.mygdx.game.structures.building.power_supply.PowerSupplyBuildingFactory;
+import com.mygdx.game.structures.building.power_supply.PowerSupplyBuildingType;
+import com.mygdx.game.tools.building.BulldozerTool;
+import com.mygdx.game.tools.building.ParkBuildingTool;
 import com.mygdx.game.tools.building.ResidentialZoningTool;
 import com.mygdx.game.tools.building.RoadBuildingTool;
-import com.mygdx.game.tools.selection.LineSelectionTool;
+import com.mygdx.game.tools.building.WaterSupplyBuildingTool;
+import com.mygdx.game.tools.selection.LocationSelectionTool;
+import com.mygdx.game.tools.selection.DragLineSelectionTool;
 import com.mygdx.game.tools.selection.RectangleSelectionTool;
 import com.mygdx.game.zones.ZoneDensity;
 
 public class GuiStage extends Stage {
   AssetManager assetManager;
   Map map;
+  City city;
   Stage stage;
 
   Skin skin;
@@ -33,13 +41,12 @@ public class GuiStage extends Stage {
   VerticalGroup subMenu;
   VerticalGroup subSubMenu;
 
-  Window window;
-
-  public GuiStage(AssetManager assetManager, Map map, SpriteBatch SpriteBatch, Viewport viewport) {
+  public GuiStage(AssetManager assetManager, Map map, City city, SpriteBatch SpriteBatch, Viewport viewport) {
     super(viewport, SpriteBatch);
 
     this.assetManager = assetManager;
     this.map = map;
+    this.city = city;
     this.stage = this;
 
     skin = new Skin(Gdx.files.internal("./ui-skin.json"));
@@ -65,10 +72,11 @@ public class GuiStage extends Stage {
     initRoadMenu();
     initZoningMenu();
     initUtilityBuildingMenu();
+    initBulldozerMenu();
   }
 
   private void initRoadMenu() {
-    ImageButton roadMenuButton = new ImageButton(skin);
+    ImageButton roadMenuButton = createMenuButton("button-road");
     mainMenu.addActor(roadMenuButton);
 
     roadMenuButton.addListener(new ClickListener() {
@@ -77,12 +85,12 @@ public class GuiStage extends Stage {
         subMenu.clear();
         subSubMenu.clear();
 
-        ImageButton roadBuildingToolButton = new ImageButton(skin);
+        ImageButton roadBuildingToolButton = createMenuButton("button-road");
         subMenu.addActor(roadBuildingToolButton);
         roadBuildingToolButton.addListener(new ClickListener() {
           @Override
           public void clicked(InputEvent event, float x, float y) {
-            map.setSelectionTool(new LineSelectionTool(assetManager, map, 4));
+            map.setSelectionTool(new DragLineSelectionTool(assetManager, map));
             map.setBuildingTool(new RoadBuildingTool(assetManager, map));
           }
         });
@@ -91,7 +99,7 @@ public class GuiStage extends Stage {
   }
 
   private void initZoningMenu() {
-    ImageButton zoningMenuButton = new ImageButton(skin);
+    ImageButton zoningMenuButton = createMenuButton("button-zone");
     mainMenu.addActor(zoningMenuButton);
 
     zoningMenuButton.addListener(new ClickListener() {
@@ -104,7 +112,7 @@ public class GuiStage extends Stage {
         imageButtonStyle.up = skin.getDrawable("button-circle");
         imageButtonStyle.imageUp = skin.getDrawable("button-circle-zone");
 
-        ImageButton residentialZoneToolButton = new ImageButton(skin);
+        ImageButton residentialZoneToolButton = createMenuButton("button-zone");
         subMenu.addActor(residentialZoneToolButton);
         residentialZoneToolButton.addListener(new ClickListener() {
           @Override
@@ -149,7 +157,7 @@ public class GuiStage extends Stage {
           }
         });
 
-        ImageButton commercialZoneToolButton = new ImageButton(skin);
+        ImageButton commercialZoneToolButton = createMenuButton("button-zone");
         subMenu.addActor(commercialZoneToolButton);
         commercialZoneToolButton.addListener(new ClickListener() {
           @Override
@@ -170,7 +178,7 @@ public class GuiStage extends Stage {
           }
         });
 
-        ImageButton industrialZoneToolButton = new ImageButton(skin);
+        ImageButton industrialZoneToolButton = createMenuButton("button-zone");
         subMenu.addActor(industrialZoneToolButton);
         industrialZoneToolButton.addListener(new ClickListener() {
           @Override
@@ -195,7 +203,7 @@ public class GuiStage extends Stage {
   }
 
   private void initUtilityBuildingMenu() {
-    ImageButton utilityBuildingMenuButton = new ImageButton(skin);
+    ImageButton utilityBuildingMenuButton = createMenuButton("button", new Color(0.6f, 0.9f, 1f, 1f));
     mainMenu.addActor(utilityBuildingMenuButton);
 
     utilityBuildingMenuButton.addListener(new ClickListener() {
@@ -204,25 +212,71 @@ public class GuiStage extends Stage {
         subMenu.clear();
         subSubMenu.clear();
 
-        ImageButton powerSupplyBuildingButton = new ImageButton(skin);
-        subMenu.addActor(powerSupplyBuildingButton);
-        powerSupplyBuildingButton.addListener(new ClickListener() {
+        ImageButton coalPlantButton = createMenuButton("button", new Color(0.35f, 0.35f, 0.35f, 1f));
+        subMenu.addActor(coalPlantButton);
+        coalPlantButton.addListener(new ClickListener() {
           @Override
           public void clicked(InputEvent event, float x, float y) {
-            window = new Window("Test", skin);
-            window.pad(50, 20, 20, 20);
-            window.setWidth(400);
-            window.setHeight(400);
-
-            Table windowTable = new Table();
-            window.addActor(windowTable);
-
-            ImageButton roadBuildingToolButton = new ImageButton(skin);
-            windowTable.addActor(roadBuildingToolButton);
-
-            stage.addActor(window);
+            map.setSelectionTool(new LocationSelectionTool(assetManager, map, 2));
+            map.setBuildingTool(new PowerSupplyBuildingFactory(map), PowerSupplyBuildingType.COAL_POWER_PLANT);
           }
         });
+
+        ImageButton windPlantButton = createMenuButton("button", new Color(0.70f, 0.92f, 0.70f, 1f));
+        subMenu.addActor(windPlantButton);
+        windPlantButton.addListener(new ClickListener() {
+          @Override
+          public void clicked(InputEvent event, float x, float y) {
+            map.setSelectionTool(new LocationSelectionTool(assetManager, map, 1));
+            map.setBuildingTool(new PowerSupplyBuildingFactory(map), PowerSupplyBuildingType.WIND_MILL);
+          }
+        });
+
+        ImageButton nuclearPlantButton = createMenuButton("button", new Color(0.8f, 1f, 0.2f, 1f));
+        subMenu.addActor(nuclearPlantButton);
+        nuclearPlantButton.addListener(new ClickListener() {
+          @Override
+          public void clicked(InputEvent event, float x, float y) {
+            map.setSelectionTool(new LocationSelectionTool(assetManager, map, 3));
+            map.setBuildingTool(new PowerSupplyBuildingFactory(map), PowerSupplyBuildingType.NUCLEAR_POWER_PLANT);
+          }
+        });
+
+        ImageButton parkButton = createMenuButton("button-circle", new Color(0.40f, 1f, 0.50f, 1f));
+        subMenu.addActor(parkButton);
+        parkButton.addListener(new ClickListener() {
+          @Override
+          public void clicked(InputEvent event, float x, float y) {
+            map.setSelectionTool(new LocationSelectionTool(assetManager, map, 1));
+            map.setBuildingTool(new ParkBuildingTool(assetManager, map, city));
+          }
+        });
+
+        ImageButton waterButton = createMenuButton("button", new Color(0.2f, 0.6f, 1f, 1f));
+        subMenu.addActor(waterButton);
+        waterButton.addListener(new ClickListener() {
+          @Override
+          public void clicked(InputEvent event, float x, float y) {
+            map.setSelectionTool(new LocationSelectionTool(assetManager, map, 1));
+            map.setBuildingTool(new WaterSupplyBuildingTool(assetManager, map, city));
+          }
+        });
+      }
+    });
+  }
+
+  private void initBulldozerMenu() {
+    ImageButton bulldozerMenuButton = createMenuButton("button-road", new Color(0.95f, 0.45f, 0.2f, 1f));
+    mainMenu.addActor(bulldozerMenuButton);
+
+    bulldozerMenuButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        subMenu.clear();
+        subSubMenu.clear();
+
+        map.setSelectionTool(new RectangleSelectionTool(assetManager, map));
+        map.setBuildingTool(new BulldozerTool(assetManager, map));
       }
     });
   }
@@ -231,7 +285,21 @@ public class GuiStage extends Stage {
     getViewport().update(width, height, true);
   }
 
-  public void update() {
+  public void update(float delta) {
+    act(delta);
     draw();
+  }
+
+  private ImageButton createMenuButton(String iconName) {
+    return createMenuButton(iconName, Color.WHITE);
+  }
+
+  private ImageButton createMenuButton(String iconName, Color iconTint) {
+    ImageButtonStyle style = new ImageButtonStyle(skin.get(ImageButtonStyle.class));
+    style.imageUp = skin.getDrawable(iconName);
+
+    ImageButton button = new ImageButton(style);
+    button.getImage().setColor(iconTint);
+    return button;
   }
 }

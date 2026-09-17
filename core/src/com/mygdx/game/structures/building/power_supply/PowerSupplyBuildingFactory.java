@@ -1,9 +1,6 @@
 package com.mygdx.game.structures.building.power_supply;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
 
 import com.mygdx.game.Cell;
 import com.mygdx.game.Map;
@@ -18,31 +15,14 @@ public class PowerSupplyBuildingFactory extends BuildingFactory<PowerSupplyBuild
 
   @Override
   public PowerSupplyBuilding build(
-    PowerSupplyBuildingType buildingType,
-    ArrayList<Cell> cells
-  ) {
-    PowerSupplyBuilding building = this.getBuilding(buildingType, cells);
-
-    Set<Cell> newCells = new HashSet<>();
-
-    for (Cell cell : cells) {
-      cell.setHasPower(true);
-
-      ArrayList<Cell> surroundingCells = map.getCellsInCircle(cell.getGridPosition(), 5);
-      newCells.addAll(surroundingCells);
-    }
-
-    for (Cell cell : newCells) {
-      cell.setHasPower(true);
-    }
-
-    return building;
+      PowerSupplyBuildingType buildingType,
+      ArrayList<Cell> cells) {
+    return this.getBuilding(buildingType, cells);
   }
 
   private PowerSupplyBuilding getBuilding(
-    PowerSupplyBuildingType buildingType,
-    ArrayList<Cell> cells
-  ) {
+      PowerSupplyBuildingType buildingType,
+      ArrayList<Cell> cells) {
     switch (buildingType) {
       case COAL_POWER_PLANT: {
         return new CoalPowerPlant(cells);
@@ -61,7 +41,7 @@ public class PowerSupplyBuildingFactory extends BuildingFactory<PowerSupplyBuild
       }
 
       case NUCLEAR_POWER_PLANT: {
-        return new CoalPowerPlant(cells);
+        return new NuclearPowerPlant(cells);
       }
 
       case OIL_POWER_PLANT: {
@@ -73,7 +53,7 @@ public class PowerSupplyBuildingFactory extends BuildingFactory<PowerSupplyBuild
       }
 
       case WIND_MILL: {
-        return new CoalPowerPlant(cells);
+        return new WindMill(cells);
       }
 
       default: {

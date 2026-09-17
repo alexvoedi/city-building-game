@@ -24,10 +24,10 @@ public class CityDate {
     } else if (day == 29 && month == 2 && isLeapYear()) {
       day = 1;
       nextMonth();
-    } else if (day == 30 && Arrays.stream(new int[]{4,6,9,11}).anyMatch((n) -> n == month)) {
+    } else if (day == 30 && Arrays.stream(new int[] { 4, 6, 9, 11 }).anyMatch((n) -> n == month)) {
       day = 1;
       nextMonth();
-    } else if (day == 31 && Arrays.stream(new int[]{1,3,5,7,8,10,12}).anyMatch((n) -> n == month)) {
+    } else if (day == 31 && Arrays.stream(new int[] { 1, 3, 5, 7, 8, 10, 12 }).anyMatch((n) -> n == month)) {
       day = 1;
       nextMonth();
     } else {
@@ -54,5 +54,17 @@ public class CityDate {
 
   public String toString() {
     return day + "." + month + "." + year;
+  }
+
+  public int getYear() {
+    return year;
+  }
+
+  public int getMonth() {
+    return month;
+  }
+
+  public int getDay() {
+    return day;
   }
 }

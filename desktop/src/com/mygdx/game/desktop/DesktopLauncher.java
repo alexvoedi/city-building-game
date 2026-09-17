@@ -1,19 +1,18 @@
 package com.mygdx.game.desktop;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.mygdx.game.CityBuildingGame;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+	public static void main(String[] arg) {
+		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
-		config.width = 1920;
-		config.height = 1080;
-		config.vSyncEnabled = false;
-		config.foregroundFPS = 0;
-		config.backgroundFPS = 0;
+		config.setWindowedMode(1920, 1080);
+		config.useVsync(false);
+		config.setForegroundFPS(0);
+		config.setIdleFPS(0);
 
-		new LwjglApplication(new CityBuildingGame(), config);
+		new Lwjgl3Application(new CityBuildingGame(), config);
 	}
 }

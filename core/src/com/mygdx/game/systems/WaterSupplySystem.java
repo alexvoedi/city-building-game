@@ -8,45 +8,47 @@ import com.artemis.BaseSystem;
 import com.mygdx.game.Cell;
 import com.mygdx.game.Map;
 import com.mygdx.game.structures.Structure;
-import com.mygdx.game.structures.building.PowerSupplyBuilding;
+import com.mygdx.game.structures.building.WaterSupplyBuilding;
 
-public class PowerSupplySystem extends BaseSystem {
+public class WaterSupplySystem extends BaseSystem {
   private static final int CONNECTION_RADIUS = 3;
-  private static final float POWER_UPDATE_SECONDS = 0.2f;
+  private static final float WATER_UPDATE_SECONDS = 0.2f;
 
   Map map;
   float acc;
 
-  public PowerSupplySystem(Map map) {
+  public WaterSupplySystem(Map map) {
     this.map = map;
   }
 
   @Override
   protected void processSystem() {
     acc += world.getDelta();
-    if (acc < POWER_UPDATE_SECONDS) {
+    if (acc < WATER_UPDATE_SECONDS) {
       return;
     }
     acc = 0f;
 
     ArrayDeque<Cell> queue = new ArrayDeque<>();
-    Set<Cell> poweredConnectionCells = new HashSet<>();
-    Set<Structure> poweredStructures = new HashSet<>();
+    Set<Cell> wateredConnectionCells = new HashSet<>();
+    Set<Structure> wateredStructures = new HashSet<>();
     Set<Cell> seededZoneCells = new HashSet<>();
     Set<Cell> floodedZoneCells = new HashSet<>();
 
+    // Reset water on all cells
     for (Cell cell : map.getCells()) {
-      cell.setHasPower(false);
+      cell.setHasWater(false);
 
-      if (cell.getStructure() instanceof PowerSupplyBuilding) {
-        cell.setHasPower(true);
+      if (cell.getStructure() instanceof WaterSupplyBuilding) {
+        cell.setHasWater(true);
 
-        if (poweredConnectionCells.add(cell)) {
+        if (wateredConnectionCells.add(cell)) {
           queue.add(cell);
         }
       }
     }
 
+    // BFS to propagate water through connections
     while (!queue.isEmpty()) {
       Cell current = queue.poll();
 
@@ -55,33 +57,35 @@ public class PowerSupplySystem extends BaseSystem {
           continue;
         }
 
-        if (poweredConnectionCells.add(candidateConnection)) {
+        if (wateredConnectionCells.add(candidateConnection)) {
           queue.add(candidateConnection);
         }
       }
     }
 
-    for (Cell connectionCell : poweredConnectionCells) {
-      connectionCell.setHasPower(true);
+    // Mark all structures and zones in range of watered connections
+    for (Cell connectionCell : wateredConnectionCells) {
+      connectionCell.setHasWater(true);
 
       for (Cell cellInRange : map.getCellsInCircle(connectionCell.getGridPosition(), CONNECTION_RADIUS)) {
         Structure structure = cellInRange.getStructure();
-        if (structure != null && poweredStructures.add(structure)) {
+        if (structure != null && wateredStructures.add(structure)) {
           for (Cell structureCell : structure.getCells()) {
-            structureCell.setHasPower(true);
+            structureCell.setHasWater(true);
           }
         }
 
         if (cellInRange.getZone() != null) {
-          cellInRange.setHasPower(true);
+          cellInRange.setHasWater(true);
           seededZoneCells.add(cellInRange);
         }
       }
     }
 
+    // Flood fill zones that are seeded with water
     for (Cell seededZoneCell : seededZoneCells) {
       if (!floodedZoneCells.contains(seededZoneCell)) {
-        floodZonePower(seededZoneCell, floodedZoneCells);
+        floodZoneWater(seededZoneCell, floodedZoneCells);
       }
     }
   }
@@ -91,7 +95,7 @@ public class PowerSupplySystem extends BaseSystem {
     return structure != null;
   }
 
-  private void floodZonePower(Cell startCell, Set<Cell> visitedZoneCells) {
+  private void floodZoneWater(Cell startCell, Set<Cell> visitedZoneCells) {
     ArrayDeque<Cell> queue = new ArrayDeque<>();
 
     queue.add(startCell);
@@ -99,7 +103,7 @@ public class PowerSupplySystem extends BaseSystem {
 
     while (!queue.isEmpty()) {
       Cell current = queue.poll();
-      current.setHasPower(true);
+      current.setHasWater(true);
 
       int x = current.getGridPosition().x;
       int y = current.getGridPosition().y;

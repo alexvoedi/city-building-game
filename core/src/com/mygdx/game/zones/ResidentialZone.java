@@ -26,4 +26,8 @@ public class ResidentialZone extends Zone {
         break;
     }
   }
+
+  public ZoneDensity getZoneDensity() {
+    return zoneDensity;
+  }
 }
